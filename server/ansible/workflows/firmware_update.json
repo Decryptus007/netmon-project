@@ -1,0 +1,27 @@
+{
+  "id": "2",
+  "tenantId": "1",
+  "name": "Update Firmware",
+  "description": "Weekly firmware update check",
+  "type": "ansible",
+  "content": "---\n- name: Check firmware updates\n  hosts: all\n  tasks:\n    - name: Check current firmware\n      ios_command:\n        commands: show version",
+  "devices": ["device1", "device2", "device3"],
+  "status": "active",
+  "schedule": {
+    "enabled": true,
+    "cron": "0 0 * * 0"
+  },
+  "steps": [
+    {
+      "id": "step1",
+      "name": "Check Firmware",
+      "type": "ansible_playbook",
+      "content": "---\n- name: Check firmware updates\n  hosts: all\n  tasks:\n    - name: Check current firmware\n      ios_command:\n        commands: show version",
+      "order": 0
+    }
+  ],
+  "lastRun": "2024-03-31T00:00:00.000Z",
+  "nextRun": "2024-04-07T00:00:00.000Z",
+  "createdAt": "2024-03-31T00:00:00.000Z",
+  "updatedAt": "2024-03-31T00:00:00.000Z"
+} 

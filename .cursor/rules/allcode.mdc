@@ -1,0 +1,238 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+Always refer to this project documentation for the required features of this project:
+
+Competitors:
+Solarwinds NPM/NCM
+Auvik Networks
+Selector.ai
+Project Overview
+Tracix is a comprehensive network monitoring and management platform designed to provide IT professionals with a unified interface for managing network infrastructure, analyzing performance, and responding to issues. This document outlines current features and planned enhancements to guide our UI redesign efforts.
+Current Features
+Dashboard
+The dashboard serves as the central command center, displaying critical network metrics, active alerts, and system health indicators at a glance.Current Implementation:
+KPI cards showing device status summaries
+Recent alerts widget
+Network performance graphs
+System health status indicators
+Quick action buttons for common tasks
+UI Considerations:
+Emphasize hierarchy of information with critical alerts most prominent
+Ensure customizability for different user roles
+Maintain consistent data visualization patterns
+Collector Agent Configuration and Deployment
+Infrastructure for distributed data collection from network devices across multiple locations.Current Implementation:
+Agent management dashboard with status indicators
+Step-by-step agent configuration wizard
+Automated deployment options for various platforms (Windows, Linux, Docker)
+Agent download center with platform-specific packages
+Configuration profiles for different collection requirements
+Agent grouping by location/function
+Remote agent updates and configuration changes
+Health monitoring for collector agents
+Agent Download Workflow:
+Select deployment environment (OS/platform)
+Configure collection parameters (polling intervals, metrics to collect)
+Generate unique agent identifier and authentication tokens
+Download appropriate package with embedded configuration
+Verification of successful deployment and connectivity
+UI Considerations:
+Clear status visualization for distributed collectors
+Simplified configuration process for new deployments
+Troubleshooting tools for agent connectivity issues
+Bulk management capabilities for large deployments
+Configuration templates for common scenarios
+Guided setup process for first-time users
+Devices Management
+Provides inventory and status information for all network devices under management.Current Implementation:
+List view with filtering and search capabilities
+Detailed device profiles with hardware specifications
+Status monitoring for all managed devices
+Interface to configure monitoring parameters
+Device grouping and tagging
+UI Considerations:
+Efficient information density for large device fleets
+Clear status indicators with consistent color coding
+Easily accessible detailed views
+Network Map
+Interactive visualization of network topology showing device relationships and connection status.Current Implementation:
+Interactive node-based diagram with device representations
+Color-coded status indicators
+Connection line styling based on link speed/status
+Interface details displayed on connection hover/selection
+Ability to select devices to view detailed information
+Monitoring configuration options at the interface level
+Multiple layout options (vertical/horizontal)
+UI Considerations:
+Ensure scalability for large networks
+Provide appropriate level of detail at different zoom levels
+Intuitive interaction patterns for node selection and information display
+Configuration Management
+Tools for managing network device configurations.Current Implementation:
+Backup & Restore: Version-controlled configuration backups
+Automation: Scheduled configuration tasks
+Templates: Reusable configuration templates
+Change History: Audit trail of configuration modifications
+UI Considerations:
+Workflow-based interface for complex operations
+Clear diff visualization for configuration changes
+Version history with easy rollback options
+Brain
+AI assistant for network analysis and troubleshooting.Current Implementation:
+Natural language query interface
+Automated analysis of network events
+Suggested troubleshooting steps
+Knowledge base of common network issues
+UI Considerations:
+Conversational interface balanced with structured data
+Clear distinction between AI suggestions and factual data
+Intuitive way to refine queries and follow up on suggestions
+Alerts
+Notification system for network events requiring attention.Current Implementation:
+Prioritized alert display
+Filtering by severity, device type, and status
+Acknowledgment and resolution tracking
+Alert history and analytics
+Customizable alert thresholds
+UI Considerations:
+Clear severity indicators
+Action-oriented interface for alert response
+Efficient alert routing and escalation workflows
+Logs
+Centralized logging system for network events.Current Implementation:
+Aggregated logs from multiple devices
+Search and filtering capabilities
+Log correlation for troubleshooting
+Log retention policies
+Export functionality
+UI Considerations:
+Efficient information display for large log volumes
+Advanced search and filtering controls
+Contextual information to aid interpretation
+Visibility
+Tools for monitoring network performance and traffic patterns.Current Implementation:
+Bandwidth utilization monitoring
+Traffic analysis by application/protocol
+Performance bottleneck identification
+Custom metrics and thresholds
+UI Considerations:
+Intuitive data visualization for complex metrics
+Easily configurable monitoring parameters
+Clear correlation between metrics and network topology
+Reports
+Automated reporting tools for network performance and status.Current Implementation:
+Scheduled report generation
+Customizable report templates
+Export in multiple formats
+Historical trend analysis
+UI Considerations:
+Report builder with intuitive controls
+Preview capabilities
+Scheduling interface for automated reports
+Planned Features
+Autodiscovery of Devices
+Automatic detection and onboarding of network devices.Proposed Implementation:
+Network scanning capabilities
+Device fingerprinting and classification
+Automatic inventory updates
+Configurable discovery policies
+Integration with existing inventory
+UI Considerations:
+Clear visualization of discovery process
+Approval workflows for adding discovered devices
+Configuration interface for discovery parameters
+Integration with existing device management views
+Hardware Lifecycle Management
+Tools to track and manage device lifecycle from procurement to retirement.Proposed Implementation:
+Warranty and support contract tracking
+End-of-life/End-of-support alerting
+Replacement planning tools
+Firmware/software version management
+Asset depreciation tracking
+UI Considerations:
+Timeline visualization for device lifecycle
+Early warning system for approaching milestones
+Procurement planning interface
+Integration with device inventory views
+Single Sign-On (SSO)
+Authentication system integration for streamlined access.Proposed Implementation:
+Integration with common identity providers
+Role-based access control
+Session management
+Audit logging for authentication events
+Multi-factor authentication support
+UI Considerations:
+Seamless login experience
+Clear user role indicators
+Account management interface
+Self-service options for password reset and MFA
+Multitenancy
+Support for multiple organizations or business units within a single installation.Proposed Implementation:
+Tenant isolation for data and configurations
+Tenant-specific branding
+Shared services with tenant-specific views
+Cross-tenant reporting for MSPs
+Tenant management console
+UI Considerations:
+Clear tenant context indicators
+Consistent experience across tenants with custom branding
+Simplified switching between tenant contexts
+Administrative interfaces for tenant management
+Case Management
+Structured workflow for issue tracking and resolution.Proposed Implementation:
+Case creation from alerts or manual entry
+Assignee tracking and notification
+Status workflow (open, in progress, resolved, etc.)
+Knowledge base integration
+SLA tracking and escalation
+Related case linking
+UI Considerations:
+Intuitive case creation workflow
+Clear status visualization
+Integration with existing alert and device views
+Collaboration tools for team-based resolution
+Slack and Teams Integration
+Real-time notifications through popular collaboration platforms.Proposed Implementation:
+Alert notifications to designated channels
+Interactive response capabilities
+Command interface for common operations
+Rich message formatting for alert context
+User mention mapping between systems
+UI Considerations:
+Configuration interface for mapping alerts to channels
+Preview of notification format
+Testing capabilities
+User mapping management
+AIOps Capabilities
+Advanced analytics for automated IT operations.Proposed Implementation:
+Log Pattern Analysis: Identify recurring issues
+Log Rate Analysis: Detect anomalies in logging frequency
+Log Categorization: Automatically classify log entries
+Predictive Alerting: Identify potential issues before failure
+Automated Root Cause Analysis: Correlate events to identify source problems
+Anomaly Detection: Identify unusual behavior patterns
+UI Considerations:
+Visualization of AI-identified patterns and anomalies
+Confidence indicators for AI predictions
+Feedback mechanisms to improve AI models
+Balance between automated insights and operator control
+Integration with existing logs and alerts interfaces
+Uptime Management
+Comprehensive tools for monitoring and maintaining service availability.Proposed Implementation:
+SLA definition and tracking
+Availability monitoring and reporting
+Scheduled maintenance windows
+Historical uptime analysis
+Downtime impact assessment
+Redundancy verification
+UI Considerations:
+Clear visualization of uptime metrics
+Calendar view for scheduled maintenance
+SLA compliance dashboards
+Impact assessment tools for planned outages
+

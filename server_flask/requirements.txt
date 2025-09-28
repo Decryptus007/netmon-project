@@ -1,0 +1,11 @@
+Flask
+python-dotenv
+elasticsearch # For Elasticsearch integration
+pydantic # For data validation and settings management
+# For Brain - Agentic AI
+langgraph
+langchain
+langchain-openai # For OpenAI LLM integration
+langchain-core
+langchain-community
+pyats # For network automation and testing 

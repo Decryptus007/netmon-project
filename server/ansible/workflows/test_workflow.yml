@@ -1,0 +1,4 @@
+---
+# Enter your Ansible playbook here
+--name:
+    cisco: ios

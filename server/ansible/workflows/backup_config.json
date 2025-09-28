@@ -1,0 +1,27 @@
+{
+  "id": "1",
+  "tenantId": "1",
+  "name": "Backup Configuration",
+  "description": "Daily backup of device configurations",
+  "type": "ansible",
+  "content": "---\n- name: Backup device configuration\n  hosts: all\n  tasks:\n    - name: Backup running config\n      ios_config:\n        backup: yes\n        backup_options:\n          filename: \"{{inventory_hostname}}-{{ansible_date_time.date}}.cfg\"",
+  "devices": ["device1", "device2"],
+  "status": "active",
+  "schedule": {
+    "enabled": true,
+    "cron": "0 0 * * *"
+  },
+  "steps": [
+    {
+      "id": "step1",
+      "name": "Backup Config",
+      "type": "ansible_playbook",
+      "content": "---\n- name: Backup device configuration\n  hosts: all\n  tasks:\n    - name: Backup running config\n      ios_config:\n        backup: yes",
+      "order": 0
+    }
+  ],
+  "lastRun": "2024-03-31T00:00:00.000Z",
+  "nextRun": "2024-04-01T00:00:00.000Z",
+  "createdAt": "2024-03-31T00:00:00.000Z",
+  "updatedAt": "2024-03-31T00:00:00.000Z"
+} 
