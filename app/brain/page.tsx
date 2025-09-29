@@ -1,21 +1,37 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { Brain, MessageSquare, Server, Search, AlertTriangle, ChevronDown, Plus, Send, X, LineChart, Tags, RefreshCw } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Avatar } from "@/components/ui/avatar"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Badge } from "@/components/ui/badge"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
- 
-} from "@/components/ui/dialog"
+import { useState } from "react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
+  Brain,
+  MessageSquare,
+  Server,
+  Search,
+  AlertTriangle,
+  ChevronDown,
+  Plus,
+  Send,
+  X,
+  LineChart,
+  Tags,
+  RefreshCw,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Avatar } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Sample data for network devices
 const networkDevices = [
@@ -27,17 +43,18 @@ const networkDevices = [
   { id: "6", name: "wlc-1", type: "Wireless Controller" },
   { id: "7", name: "srv-1", type: "Server" },
   { id: "8", name: "core-router-1", type: "Router" },
-]
+];
 
 // Sample chat messages
 const initialMessages = [
   {
     id: "1",
     role: "assistant",
-    content: "Hello! I'm Tracix Assistant. How can I help with your network today?",
-    timestamp: new Date().toISOString()
-  }
-]
+    content:
+      "Hello! I'm Tracix Assistant. How can I help with your network today?",
+    timestamp: new Date().toISOString(),
+  },
+];
 
 // Sample log patterns
 const logPatterns = [
@@ -47,7 +64,7 @@ const logPatterns = [
     count: 156,
     devices: ["fw-1", "edge-router-1"],
     lastSeen: "2024-03-17 10:30:00",
-    severity: "warning"
+    severity: "warning",
   },
   {
     id: "2",
@@ -55,7 +72,7 @@ const logPatterns = [
     count: 89,
     devices: ["core-switch-1", "access-sw-1"],
     lastSeen: "2024-03-17 10:25:00",
-    severity: "info"
+    severity: "info",
   },
   {
     id: "3",
@@ -63,9 +80,9 @@ const logPatterns = [
     count: 45,
     devices: ["core-router-1"],
     lastSeen: "2024-03-17 10:20:00",
-    severity: "error"
-  }
-]
+    severity: "error",
+  },
+];
 
 // Sample log categories
 const logCategories = [
@@ -73,9 +90,13 @@ const logCategories = [
     id: "1",
     name: "Security Events",
     count: 234,
-    patterns: ["Connection refused", "Failed login attempt", "Firewall rule match"],
+    patterns: [
+      "Connection refused",
+      "Failed login attempt",
+      "Firewall rule match",
+    ],
     devices: ["fw-1", "edge-router-1"],
-    lastUpdated: "2024-03-17 10:30:00"
+    lastUpdated: "2024-03-17 10:30:00",
   },
   {
     id: "2",
@@ -83,7 +104,7 @@ const logCategories = [
     count: 156,
     patterns: ["Interface state", "Link status", "BGP neighbor"],
     devices: ["core-switch-1", "access-sw-1"],
-    lastUpdated: "2024-03-17 10:25:00"
+    lastUpdated: "2024-03-17 10:25:00",
   },
   {
     id: "3",
@@ -91,9 +112,9 @@ const logCategories = [
     count: 89,
     patterns: ["CPU utilization", "Memory usage", "Bandwidth threshold"],
     devices: ["core-router-1", "srv-1"],
-    lastUpdated: "2024-03-17 10:20:00"
-  }
-]
+    lastUpdated: "2024-03-17 10:20:00",
+  },
+];
 
 export default function BrainPage() {
   const [openSections, setOpenSections] = useState({
@@ -101,116 +122,120 @@ export default function BrainPage() {
     assessment: false,
     rootCause: false,
     patternAnalysis: false,
-    categorization: false
-  })
-  
+    categorization: false,
+  });
+
   // Chat state
-  const [messages, setMessages] = useState(initialMessages)
-  const [inputValue, setInputValue] = useState("")
-  const [isSending, setIsSending] = useState(false)
-  const [contextDevices, setContextDevices] = useState<string[]>([])
-  const [showDeviceSearch, setShowDeviceSearch] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [mentionActive, setMentionActive] = useState(false)
-  
-  const filteredDevices = networkDevices.filter(device => 
-    device.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    device.type.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-  
+  const [messages, setMessages] = useState(initialMessages);
+  const [inputValue, setInputValue] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  const [contextDevices, setContextDevices] = useState<string[]>([]);
+  const [showDeviceSearch, setShowDeviceSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [mentionActive, setMentionActive] = useState(false);
+
+  const filteredDevices = networkDevices.filter(
+    (device) =>
+      device.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      device.type.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value
-    setInputValue(value)
-    
+    const value = e.target.value;
+    setInputValue(value);
+
     // Check if @ was just typed to activate device mention
-    if (value.endsWith('@') && !value.endsWith('\\@')) {
-      setMentionActive(true)
-      setShowDeviceSearch(true)
-      setSearchQuery("")
+    if (value.endsWith("@") && !value.endsWith("\\@")) {
+      setMentionActive(true);
+      setShowDeviceSearch(true);
+      setSearchQuery("");
     } else if (mentionActive) {
       // Extract the text after @ for searching
-      const parts = value.split('@')
-      const searchTerm = parts[parts.length - 1].trim()
-      setSearchQuery(searchTerm)
-      
+      const parts = value.split("@");
+      const searchTerm = parts[parts.length - 1].trim();
+      setSearchQuery(searchTerm);
+
       // If user pressed space after selecting or typing the device name, deactivate mention
-      if (searchTerm.includes(' ')) {
-        setMentionActive(false)
-        setShowDeviceSearch(false)
+      if (searchTerm.includes(" ")) {
+        setMentionActive(false);
+        setShowDeviceSearch(false);
       }
     }
-  }
-  
+  };
+
   const handleDeviceSelect = (deviceId: string) => {
-    const device = networkDevices.find(d => d.id === deviceId)
+    const device = networkDevices.find((d) => d.id === deviceId);
     if (device) {
       if (mentionActive) {
         // Replace the @query with @device-name
-        const parts = inputValue.split('@')
-        parts.pop() // Remove the search part
-        const newValue = parts.join('@') + '@' + device.name + ' '
-        setInputValue(newValue)
-        setMentionActive(false)
+        const parts = inputValue.split("@");
+        parts.pop(); // Remove the search part
+        const newValue = parts.join("@") + "@" + device.name + " ";
+        setInputValue(newValue);
+        setMentionActive(false);
       }
-      
+
       // Add to context if not already there
       if (!contextDevices.includes(deviceId)) {
-        setContextDevices([...contextDevices, deviceId])
+        setContextDevices([...contextDevices, deviceId]);
       }
-      
-      setShowDeviceSearch(false)
+
+      setShowDeviceSearch(false);
     }
-  }
-  
+  };
+
   const removeFromContext = (deviceId: string) => {
-    setContextDevices(contextDevices.filter(id => id !== deviceId))
-  }
-  
+    setContextDevices(contextDevices.filter((id) => id !== deviceId));
+  };
+
   const sendMessage = () => {
-    if (!inputValue.trim()) return
-    
-    setIsSending(true)
-    
+    if (!inputValue.trim()) return;
+
+    setIsSending(true);
+
     // Add user message
     const userMessage = {
       id: Date.now().toString(),
       role: "user",
       content: inputValue,
-      timestamp: new Date().toISOString()
-    }
-    
-    setMessages([...messages, userMessage])
-    setInputValue("")
-    
+      timestamp: new Date().toISOString(),
+    };
+
+    setMessages([...messages, userMessage]);
+    setInputValue("");
+
     // Simulate AI response after delay
     setTimeout(() => {
-      const deviceContext = contextDevices.length > 0 
-        ? networkDevices
-            .filter(d => contextDevices.includes(d.id))
-            .map(d => d.name)
-            .join(", ")
-        : "No specific devices"
-            
+      const deviceContext =
+        contextDevices.length > 0
+          ? networkDevices
+              .filter((d) => contextDevices.includes(d.id))
+              .map((d) => d.name)
+              .join(", ")
+          : "No specific devices";
+
       const assistantMessage = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content: `I'm analyzing your question about ${deviceContext}. Here's what I found...`,
-        timestamp: new Date().toISOString()
-      }
-      
-      setMessages(prev => [...prev, assistantMessage])
-      setIsSending(false)
-    }, 1500)
-  }
-  
+        timestamp: new Date().toISOString(),
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+      setIsSending(false);
+    }, 1500);
+  };
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Brain</h1>
-      
+
       {/* Tracix Assistant */}
-      <Collapsible 
-        open={openSections.assistant} 
-        onOpenChange={(open) => setOpenSections({...openSections, assistant: open})}
+      <Collapsible
+        open={openSections.assistant}
+        onOpenChange={(open) =>
+          setOpenSections({ ...openSections, assistant: open })
+        }
         className="border rounded-lg overflow-hidden"
       >
         <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-white hover:bg-gray-50">
@@ -227,9 +252,9 @@ export default function BrainPage() {
               <div className="pb-2 border-b mb-2">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-medium">Device Context</h3>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setShowDeviceSearch(true)}
                     className="h-8 gap-1 text-xs"
                   >
@@ -239,48 +264,58 @@ export default function BrainPage() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {contextDevices.length === 0 ? (
-                    <span className="text-xs text-muted-foreground">No devices added. Type @ to mention a device or use the + button.</span>
+                    <span className="text-xs text-muted-foreground">
+                      No devices added. Type @ to mention a device or use the +
+                      button.
+                    </span>
                   ) : (
-                    contextDevices.map(deviceId => {
-                      const device = networkDevices.find(d => d.id === deviceId)
+                    contextDevices.map((deviceId) => {
+                      const device = networkDevices.find(
+                        (d) => d.id === deviceId
+                      );
                       return (
-                        <Badge 
-                          key={deviceId} 
-                          variant="outline" 
+                        <Badge
+                          key={deviceId}
+                          variant="outline"
                           className="pl-2 pr-1 py-1 flex items-center gap-1 bg-[#f0f9f9] border-[#5BB6B7] text-[#5BB6B7]"
                         >
                           <Server className="h-3 w-3" />
                           <span>{device?.name}</span>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            onClick={() => removeFromContext(deviceId)} 
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeFromContext(deviceId)}
                             className="h-4 w-4 p-0 ml-1 hover:bg-[#e0f0f0]"
                           >
                             <X className="h-3 w-3" />
                           </Button>
                         </Badge>
-                      )
+                      );
                     })
                   )}
                 </div>
               </div>
-              
+
               {/* Chat messages */}
               <ScrollArea className="flex-1 px-2">
                 <div className="space-y-4 py-2">
                   {messages.map((message) => (
-                    <div 
-                      key={message.id} 
-                      className={`flex ${message.role === 'assistant' ? 'justify-start' : 'justify-end'}`}
+                    <div
+                      key={message.id}
+                      className={`flex ${
+                        message.role === "assistant"
+                          ? "justify-start"
+                          : "justify-end"
+                      }`}
                     >
-                      <div className={`flex items-start gap-2 max-w-[80%] ${
-                        message.role === 'assistant' 
-                          ? 'bg-gray-100 text-gray-900' 
-                          : 'bg-[#5BB6B7] text-white'
+                      <div
+                        className={`flex items-start gap-2 max-w-[80%] ${
+                          message.role === "assistant"
+                            ? "bg-gray-100 text-gray-900"
+                            : "bg-[#5BB6B7] text-white"
                         } p-3 rounded-lg`}
                       >
-                        {message.role === 'assistant' && (
+                        {message.role === "assistant" && (
                           <div className="flex-shrink-0">
                             <Avatar className="h-8 w-8 bg-[#5BB6B7] text-white flex items-center justify-center">
                               <Brain className="h-4 w-4" />
@@ -288,9 +323,14 @@ export default function BrainPage() {
                           </div>
                         )}
                         <div>
-                          <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                          <p className="text-sm whitespace-pre-wrap">
+                            {message.content}
+                          </p>
                           <span className="text-xs opacity-70 mt-1 block">
-                            {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            {new Date(message.timestamp).toLocaleTimeString(
+                              [],
+                              { hour: "2-digit", minute: "2-digit" }
+                            )}
                           </span>
                         </div>
                       </div>
@@ -298,7 +338,7 @@ export default function BrainPage() {
                   ))}
                 </div>
               </ScrollArea>
-              
+
               {/* Input area */}
               <div className="mt-4 relative">
                 <Textarea
@@ -307,19 +347,19 @@ export default function BrainPage() {
                   placeholder="Type @ to mention a device or ask a question..."
                   className="min-h-[80px] pr-12"
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault()
-                      sendMessage()
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      sendMessage();
                     }
-                    
-                    if (e.key === 'Escape' && mentionActive) {
-                      setMentionActive(false)
-                      setShowDeviceSearch(false)
+
+                    if (e.key === "Escape" && mentionActive) {
+                      setMentionActive(false);
+                      setShowDeviceSearch(false);
                     }
                   }}
                 />
-                <Button 
-                  className="absolute bottom-3 right-3 bg-[#4CA5A6] hover:bg-[#3B9495] text-white" 
+                <Button
+                  className="absolute bottom-3 right-3 bg-[#4CA5A6] hover:bg-[#3B9495] text-white"
                   size="sm"
                   disabled={!inputValue.trim() || isSending}
                   onClick={sendMessage}
@@ -330,26 +370,32 @@ export default function BrainPage() {
                     <Send className="h-4 w-4" />
                   )}
                 </Button>
-                
+
                 {/* Device mention dropdown */}
                 {showDeviceSearch && mentionActive && (
                   <div className="absolute bottom-full left-0 w-full mb-2 bg-white border rounded-md shadow-lg max-h-[200px] overflow-y-auto">
                     <div className="p-2">
-                      <div className="text-xs font-medium mb-2">Select a device to mention</div>
+                      <div className="text-xs font-medium mb-2">
+                        Select a device to mention
+                      </div>
                       {filteredDevices.length > 0 ? (
-                        filteredDevices.map(device => (
-                          <div 
+                        filteredDevices.map((device) => (
+                          <div
                             key={device.id}
                             className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded cursor-pointer"
                             onClick={() => handleDeviceSelect(device.id)}
                           >
                             <Server className="h-3 w-3 text-gray-500" />
                             <span className="text-sm">{device.name}</span>
-                            <span className="text-xs text-gray-500">({device.type})</span>
+                            <span className="text-xs text-gray-500">
+                              ({device.type})
+                            </span>
                           </div>
                         ))
                       ) : (
-                        <div className="text-sm text-gray-500 p-2">No devices found</div>
+                        <div className="text-sm text-gray-500 p-2">
+                          No devices found
+                        </div>
                       )}
                     </div>
                   </div>
@@ -359,9 +405,12 @@ export default function BrainPage() {
           </div>
         </CollapsibleContent>
       </Collapsible>
-      
+
       {/* Device Search Dialog */}
-      <Dialog open={showDeviceSearch && !mentionActive} onOpenChange={setShowDeviceSearch}>
+      <Dialog
+        open={showDeviceSearch && !mentionActive}
+        onOpenChange={setShowDeviceSearch}
+      >
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Add Devices to Context</DialogTitle>
@@ -376,11 +425,11 @@ export default function BrainPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            
+
             <div className="border rounded-md h-[300px] overflow-y-auto">
               {filteredDevices.length > 0 ? (
-                filteredDevices.map(device => (
-                  <div 
+                filteredDevices.map((device) => (
+                  <div
                     key={device.id}
                     className="flex items-center justify-between px-4 py-2 hover:bg-gray-50 border-b last:border-0"
                   >
@@ -388,18 +437,24 @@ export default function BrainPage() {
                       <Server className="h-4 w-4 text-gray-500" />
                       <div>
                         <div className="text-sm font-medium">{device.name}</div>
-                        <div className="text-xs text-gray-500">{device.type}</div>
+                        <div className="text-xs text-gray-500">
+                          {device.type}
+                        </div>
                       </div>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
-                      className={contextDevices.includes(device.id) ? "bg-[#5BB6B7] text-white" : ""}
+                      className={
+                        contextDevices.includes(device.id)
+                          ? "bg-[#5BB6B7] text-white"
+                          : ""
+                      }
                       onClick={() => {
                         if (contextDevices.includes(device.id)) {
-                          removeFromContext(device.id)
+                          removeFromContext(device.id);
                         } else {
-                          handleDeviceSelect(device.id)
+                          handleDeviceSelect(device.id);
                         }
                       }}
                     >
@@ -413,18 +468,20 @@ export default function BrainPage() {
                 </div>
               )}
             </div>
-            
+
             <div className="flex justify-end">
               <Button onClick={() => setShowDeviceSearch(false)}>Done</Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* AI Network Assessment */}
-      <Collapsible 
-        open={openSections.assessment} 
-        onOpenChange={(open) => setOpenSections({...openSections, assessment: open})}
+      <Collapsible
+        open={openSections.assessment}
+        onOpenChange={(open) =>
+          setOpenSections({ ...openSections, assessment: open })
+        }
         className="border rounded-lg overflow-hidden"
       >
         <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-white hover:bg-gray-50">
@@ -438,33 +495,36 @@ export default function BrainPage() {
           <div className="p-4 bg-white">
             <div className="space-y-4">
               <p className="text-sm text-gray-600">
-                The AI Network Assessment analyzes your entire network configuration, 
-                identifying potential risks, misconfigurations, and opportunities for optimization.
+                The AI Network Assessment analyzes your entire network
+                configuration, identifying potential risks, misconfigurations,
+                and opportunities for optimization.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button className="bg-[#5BB6B7] hover:bg-[#4CA5A6] text-white">
                   Run Full Assessment
                 </Button>
-                <Button variant="outline">
-                  View Previous Reports
-                </Button>
+                <Button variant="outline">View Previous Reports</Button>
               </div>
-              
+
               {/* Sample assessment preview */}
               <div className="border rounded-lg p-4 mt-4 bg-gray-50">
                 <h3 className="font-medium mb-2">Last Assessment Summary</h3>
-                <p className="text-sm text-gray-600">No previous assessments found.</p>
+                <p className="text-sm text-gray-600">
+                  No previous assessments found.
+                </p>
               </div>
             </div>
           </div>
         </CollapsibleContent>
       </Collapsible>
-      
+
       {/* AI-Powered Root Cause Analysis */}
-      <Collapsible 
-        open={openSections.rootCause} 
-        onOpenChange={(open) => setOpenSections({...openSections, rootCause: open})}
+      <Collapsible
+        open={openSections.rootCause}
+        onOpenChange={(open) =>
+          setOpenSections({ ...openSections, rootCause: open })
+        }
         className="border rounded-lg overflow-hidden"
       >
         <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-white hover:bg-gray-50">
@@ -478,10 +538,11 @@ export default function BrainPage() {
           <div className="p-4 bg-white">
             <div className="space-y-4">
               <p className="text-sm text-gray-600">
-                The AI-Powered Root Cause Analysis helps you identify the underlying causes of network issues
-                by analyzing patterns, logs, and configurations across your devices.
+                The AI-Powered Root Cause Analysis helps you identify the
+                underlying causes of network issues by analyzing patterns, logs,
+                and configurations across your devices.
               </p>
-              
+
               <div className="flex items-center gap-4">
                 <div className="flex-1">
                   <Input placeholder="Describe the issue you're experiencing..." />
@@ -490,11 +551,14 @@ export default function BrainPage() {
                   Analyze
                 </Button>
               </div>
-              
+
               {/* Sample analysis placeholder */}
               <div className="border rounded-lg p-4 mt-4 bg-gray-50">
                 <h3 className="font-medium mb-2">Analysis Results</h3>
-                <p className="text-sm text-gray-600">Enter a description of your issue and click Analyze to get started.</p>
+                <p className="text-sm text-gray-600">
+                  Enter a description of your issue and click Analyze to get
+                  started.
+                </p>
               </div>
             </div>
           </div>
@@ -502,9 +566,11 @@ export default function BrainPage() {
       </Collapsible>
 
       {/* Log Pattern Analysis */}
-      <Collapsible 
-        open={openSections.patternAnalysis} 
-        onOpenChange={(open) => setOpenSections({...openSections, patternAnalysis: open})}
+      <Collapsible
+        open={openSections.patternAnalysis}
+        onOpenChange={(open) =>
+          setOpenSections({ ...openSections, patternAnalysis: open })
+        }
         className="border rounded-lg overflow-hidden"
       >
         <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-white hover:bg-gray-50">
@@ -537,10 +603,17 @@ export default function BrainPage() {
                       <div>
                         <h4 className="font-medium">{pattern.pattern}</h4>
                         <p className="text-sm text-muted-foreground">
-                          Seen {pattern.count} times across {pattern.devices.length} devices
+                          Seen {pattern.count} times across{" "}
+                          {pattern.devices.length} devices
                         </p>
                       </div>
-                      <Badge variant={pattern.severity === 'error' ? 'destructive' : pattern.severity === 'warning' ? 'warning' : 'default'}>
+                      <Badge
+                        variant={
+                          pattern.severity === "error"
+                            ? "destructive"
+                            : "default"
+                        }
+                      >
                         {pattern.severity}
                       </Badge>
                     </div>
@@ -563,9 +636,11 @@ export default function BrainPage() {
       </Collapsible>
 
       {/* Log Categorization */}
-      <Collapsible 
-        open={openSections.categorization} 
-        onOpenChange={(open) => setOpenSections({...openSections, categorization: open})}
+      <Collapsible
+        open={openSections.categorization}
+        onOpenChange={(open) =>
+          setOpenSections({ ...openSections, categorization: open })
+        }
         className="border rounded-lg overflow-hidden"
       >
         <CollapsibleTrigger className="flex items-center justify-between w-full p-4 bg-white hover:bg-gray-50">
@@ -620,7 +695,8 @@ export default function BrainPage() {
                       ))}
                     </div>
                     <p className="text-xs text-muted-foreground mt-2">
-                      Last updated: {new Date(category.lastUpdated).toLocaleString()}
+                      Last updated:{" "}
+                      {new Date(category.lastUpdated).toLocaleString()}
                     </p>
                   </div>
                 ))}
@@ -630,5 +706,5 @@ export default function BrainPage() {
         </CollapsibleContent>
       </Collapsible>
     </div>
-  )
-} 
+  );
+}

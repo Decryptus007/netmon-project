@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 
 // This is mock data - replace with actual database/API calls
 const mockDeviceData = {
@@ -13,16 +13,16 @@ const mockDeviceData = {
     memory: {
       total: "32768 MB",
       used: "12288 MB",
-      free: "20480 MB"
+      free: "20480 MB",
     },
     flash: {
       total: "16384 MB",
       used: "8192 MB",
-      free: "8192 MB"
+      free: "8192 MB",
     },
     location: "Main Data Center - Rack A05",
     contact: "network-ops@company.com",
-    lastConfigChange: "2024-03-10 15:23:41 UTC"
+    lastConfigChange: "2024-03-10 15:23:41 UTC",
   },
   "2": {
     hostname: "CAT-RTR-02",
@@ -35,16 +35,16 @@ const mockDeviceData = {
     memory: {
       total: "32768 MB",
       used: "14336 MB",
-      free: "18432 MB"
+      free: "18432 MB",
     },
     flash: {
       total: "16384 MB",
       used: "9216 MB",
-      free: "7168 MB"
+      free: "7168 MB",
     },
     location: "Main Data Center - Rack B03",
     contact: "network-ops@company.com",
-    lastConfigChange: "2024-03-08 09:15:22 UTC"
+    lastConfigChange: "2024-03-08 09:15:22 UTC",
   },
   "3": {
     hostname: "CAT-SW-01",
@@ -57,16 +57,16 @@ const mockDeviceData = {
     memory: {
       total: "16384 MB",
       used: "8192 MB",
-      free: "8192 MB"
+      free: "8192 MB",
     },
     flash: {
       total: "8192 MB",
       used: "4096 MB",
-      free: "4096 MB"
+      free: "4096 MB",
     },
     location: "Main Data Center - Row C",
     contact: "network-ops@company.com",
-    lastConfigChange: "2024-02-28 11:45:33 UTC"
+    lastConfigChange: "2024-02-28 11:45:33 UTC",
   },
   "4": {
     hostname: "CAT-RTR-EDGE-01",
@@ -79,16 +79,16 @@ const mockDeviceData = {
     memory: {
       total: "65536 MB",
       used: "28672 MB",
-      free: "36864 MB"
+      free: "36864 MB",
     },
     flash: {
       total: "32768 MB",
       used: "16384 MB",
-      free: "16384 MB"
+      free: "16384 MB",
     },
     location: "Edge Site - Building 2",
     contact: "network-ops@company.com",
-    lastConfigChange: "2024-03-12 08:30:15 UTC"
+    lastConfigChange: "2024-03-12 08:30:15 UTC",
   },
   "5": {
     hostname: "CAT-SW-CORE-01",
@@ -101,47 +101,50 @@ const mockDeviceData = {
     memory: {
       total: "32768 MB",
       used: "18432 MB",
-      free: "14336 MB"
+      free: "14336 MB",
     },
     flash: {
       total: "16384 MB",
       used: "10240 MB",
-      free: "6144 MB"
+      free: "6144 MB",
     },
     location: "Core Network - Room 101",
     contact: "network-ops@company.com",
-    lastConfigChange: "2024-03-01 16:20:55 UTC"
-  }
-}
+    lastConfigChange: "2024-03-01 16:20:55 UTC",
+  },
+};
 
 export async function GET(
   request: Request,
-  { params }: { params: { deviceId: string } }
+  { params }: { params: Promise<{ deviceId: string }> }
 ) {
   try {
     // Add artificial delay to simulate network latency
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const deviceId = params.deviceId
-    const deviceData = mockDeviceData[deviceId as keyof typeof mockDeviceData]
+    const { deviceId } = await params;
+    const deviceData = mockDeviceData[deviceId as keyof typeof mockDeviceData];
 
     if (!deviceData) {
-      return new NextResponse(JSON.stringify({ error: 'Device not found' }), {
+      return new NextResponse(JSON.stringify({ error: "Device not found" }), {
         status: 404,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-      })
+      });
     }
 
-    return NextResponse.json(deviceData)
+    return NextResponse.json(deviceData);
   } catch (error) {
-    console.error('Error fetching device data:', error)
-    return new NextResponse(JSON.stringify({ error: 'Internal server error' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    console.error("Error fetching device data:", error);
+    return new NextResponse(
+      JSON.stringify({ error: "Internal server error" }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
-} 
+}
